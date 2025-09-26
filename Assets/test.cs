@@ -7,7 +7,7 @@ public class test : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        DialogueSystem.Instance.ShowDialogue("Hello world! this is a new message.");
+        DialogueSystem.Instance.ShowDialogue("You:", "Heard the folks at this joint were willing to have a little conversation.");
     }
 
     // Update is called once per frame

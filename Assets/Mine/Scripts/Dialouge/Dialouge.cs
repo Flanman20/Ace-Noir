@@ -5,16 +5,24 @@ using UnityEngine.UI;
 
 public class DialogueSystem : MonoBehaviour
 {
-    public TextMeshProUGUI textComponent;
-    public Image dialogueBox;
-    public GameObject textObject;
+    [Header("UI References")]
+    public GameObject speakerObject;            // Box for speaker name
+    public TextMeshProUGUI speakerComponent;    // Text for speaker name
+    public TextMeshProUGUI textComponent;       // Text for dialogue
+    public Image dialogueBox;                   // Background for dialogue
+    public GameObject textObject;               // Container for text
+
+    [Header("Audio")]
     public AudioSource audioSource;
     public AudioClip typeSound;
+
+    [Header("Settings")]
     public float textSpeed = 0.05f;
 
     public static DialogueSystem Instance;
 
     private string[] lines;
+    private string currentSpeaker;
     private int index;
     private bool isActive;
 
@@ -35,19 +43,27 @@ public class DialogueSystem : MonoBehaviour
         }
     }
 
-    public void ShowDialogue(string line)
+    // New ShowDialogue with speaker name required
+    public void ShowDialogue(string speaker, string line)
     {
-        ShowDialogue(new string[] { line });
+        ShowDialogue(speaker, new string[] { line });
     }
 
-    public void ShowDialogue(string[] dialogueLines)
+    public void ShowDialogue(string speaker, string[] dialogueLines)
     {
+        currentSpeaker = speaker;
         lines = dialogueLines;
         index = 0;
         isActive = true;
 
+        // Activate UI
         dialogueBox.gameObject.SetActive(true);
         textObject.SetActive(true);
+        speakerObject.SetActive(true);
+
+        // Set speaker name
+        if (speakerComponent)
+            speakerComponent.text = currentSpeaker;
 
         StartCoroutine(TypeLine());
     }
@@ -87,5 +103,6 @@ public class DialogueSystem : MonoBehaviour
         isActive = false;
         dialogueBox.gameObject.SetActive(false);
         textObject.SetActive(false);
+        speakerObject.SetActive(false);
     }
 }
